@@ -17,8 +17,8 @@ public class LimiterServiceAggregatorTests
 		HttpContext firstHttpContext = CreateHttpContextMockWithRequestPath("/test1");
 		HttpContext secondHttpContext = CreateHttpContextMockWithRequestPath("/test2");
 
-		var routeLimiterOptionMonitor = new TestOptionsMonitor<RouteLimiterOptions>(CreateRouteLimiterTestOptionMonitor("/test1", 1, 1));
-		var standardLimiterOptionMonitor = new TestOptionsMonitor<DefaultLimiterOptions>(CreateStandardLimiterTestOptionMonitor(1, 1));
+		var routeLimiterOptionMonitor = new TestOptionsMonitor<RouteLimiterOptions>(CreateRouteLimiterOptions("/test1", 1, 1));
+		var standardLimiterOptionMonitor = new TestOptionsMonitor<DefaultLimiterOptions>(CreateDefaultLimiterOptions(1, 1));
 
 		TestTimeProvider timeProvider = new();
 		using RouteHttpContextLimiterService routeLimiter = new(timeProvider, routeLimiterOptionMonitor);
@@ -86,7 +86,7 @@ public class LimiterServiceAggregatorTests
 		return mock.Object;
 	}
 
-	private DefaultLimiterOptions CreateStandardLimiterTestOptionMonitor(int requestLimit, int windowLimitInMinutes)
+	private DefaultLimiterOptions CreateDefaultLimiterOptions(int requestLimit, int windowLimitInMinutes)
 	{
 		return new DefaultLimiterOptions
 		{
@@ -95,7 +95,7 @@ public class LimiterServiceAggregatorTests
 		};
 	}
 	
-	private static RouteLimiterOptions CreateRouteLimiterTestOptionMonitor(string path, int requestLimit, int windowLimitInMinutes)
+	private static RouteLimiterOptions CreateRouteLimiterOptions(string path, int requestLimit, int windowLimitInMinutes)
 	{
 		return new RouteLimiterOptions
 		{
