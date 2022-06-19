@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
 using RateLimiterLibrary.Checkers;
+using RateLimiterLibrary.Contracts;
 using RateLimiterLibrary.Options;
 using RateLimiterLibrary.Providers;
 
@@ -9,13 +9,13 @@ namespace RateLimiterLibrary.Services.Implementations;
 public class DefaultHttpContextLimiterService: IHttpContextLimiterService
 {
 	private readonly LimiterChecker checker;
-	private readonly IDisposable changeTracker;
 
-	public DefaultHttpContextLimiterService(ITimeProvider timeProvider, IOptionsMonitor<DefaultLimiterOptions> options)
+	public DefaultHttpContextLimiterService(ITimeProvider timeProvider, IConfigProvider<DefaultLimiterOptions> options)
 	{
-		checker = new LimiterChecker(timeProvider, options.CurrentValue.RequestsLimit, options.CurrentValue.WindowSize);
-		
-		changeTracker = options.OnChange(OptionsChanged);
+		DefaultLimiterOptions currentConfig = options.GetCurrentConfig();
+		checker = new LimiterChecker(timeProvider, currentConfig.RequestsLimit, currentConfig.WindowSize);
+
+		options.OnNewConfig += OptionsChanged;
 	}
 	
 	public CheckResult CanExecuteRequest(HttpContext httpContext)
@@ -26,10 +26,5 @@ public class DefaultHttpContextLimiterService: IHttpContextLimiterService
 	private void OptionsChanged(DefaultLimiterOptions options)
 	{
 		checker.UpdateLimits(options.RequestsLimit, options.WindowSize);
-	}
-	
-	public void Dispose()
-	{
-		changeTracker.Dispose();
 	}
 }

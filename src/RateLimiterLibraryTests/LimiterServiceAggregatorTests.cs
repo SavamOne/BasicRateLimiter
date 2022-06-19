@@ -17,12 +17,12 @@ public class LimiterServiceAggregatorTests
 		HttpContext firstHttpContext = CreateHttpContextMockWithRequestPath("/test1");
 		HttpContext secondHttpContext = CreateHttpContextMockWithRequestPath("/test2");
 
-		var routeLimiterOptionMonitor = new TestOptionsMonitor<RouteLimiterOptions>(CreateRouteLimiterOptions("/test1", 1, 1));
-		var standardLimiterOptionMonitor = new TestOptionsMonitor<DefaultLimiterOptions>(CreateDefaultLimiterOptions(1, 1));
+		var routeLimiterConfigProvider = new TestConfigProvider<RouteLimiterOptions>(CreateRouteLimiterOptions("/test1", 1, 1));
+		var standardLimiterConfigProvider = new TestConfigProvider<DefaultLimiterOptions>(CreateDefaultLimiterOptions(1, 1));
 
 		TestTimeProvider timeProvider = new();
-		using RouteHttpContextLimiterService routeLimiter = new(timeProvider, routeLimiterOptionMonitor);
-		using DefaultHttpContextLimiterService defaultLimiter = new(timeProvider, standardLimiterOptionMonitor);
+		using RouteHttpContextLimiterService routeLimiter = new(timeProvider, routeLimiterConfigProvider);
+		DefaultHttpContextLimiterService defaultLimiter = new(timeProvider, standardLimiterConfigProvider);
 		HttpContextLimiterServiceAggregator aggregator = new(new IHttpContextLimiterService[]{ routeLimiter, defaultLimiter });
 
 		bool result = aggregator.CanExecuteRequest(firstHttpContext);
@@ -40,10 +40,10 @@ public class LimiterServiceAggregatorTests
 	{
 		HttpContext httpContext = CreateHttpContextMockWithRemoteIpAddress("1.1.1.1");
 		
-		var ipLimiterOptionMonitor = new TestOptionsMonitor<IpLimiterOptions>(CreateIpLimiterOptions("1.1.1.1", 2, 1));
+		var ipLimiterConfigProvider = new TestConfigProvider<IpLimiterOptions>(CreateIpLimiterOptions("1.1.1.1", 2, 1));
 		
 		TestTimeProvider timeProvider = new();
-		using IpHttpContextLimiterService ipLimiter = new(timeProvider, ipLimiterOptionMonitor);
+		using IpHttpContextLimiterService ipLimiter = new(timeProvider, ipLimiterConfigProvider);
 		HttpContextLimiterServiceAggregator aggregator = new(new IHttpContextLimiterService[]{ ipLimiter });
 		
 		bool result = aggregator.CanExecuteRequest(httpContext);
@@ -55,7 +55,7 @@ public class LimiterServiceAggregatorTests
 		result = aggregator.CanExecuteRequest(httpContext);
 		Assert.False(result);
 		
-		ipLimiterOptionMonitor.Set(CreateIpLimiterOptions("1.1.1.1", 3, 1));
+		ipLimiterConfigProvider.Set(CreateIpLimiterOptions("1.1.1.1", 3, 1));
 		
 		result = aggregator.CanExecuteRequest(httpContext);
 		Assert.True(result);

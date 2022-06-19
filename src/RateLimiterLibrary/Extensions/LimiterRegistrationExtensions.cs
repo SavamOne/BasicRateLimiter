@@ -18,6 +18,7 @@ public static class LimiterRegistrationExtensions
 		serviceCollection.AddOptions<DefaultLimiterOptions>()
 		   .Bind(configuration.GetSection(nameof(DefaultLimiterOptions)))
 		   .Validate(options => options.RequestsLimit <= 0 || options.WindowSizeInMinutes > 0);
+		serviceCollection.AddSingleton<IConfigProvider<DefaultLimiterOptions>, OptionsMonitorConfigProvider<DefaultLimiterOptions>>();
 		
 		serviceCollection.TryAddSingleton<ITimeProvider, StopwatchTicksProvider>();
 		serviceCollection.TryAddEnumerable(ServiceDescriptor.Singleton<IHttpContextLimiterService, DefaultHttpContextLimiterService>());
@@ -31,6 +32,7 @@ public static class LimiterRegistrationExtensions
 		serviceCollection.AddOptions<RouteLimiterOptions>()
 		   .Bind(configuration.GetSection(nameof(RouteLimiterOptions)))
 		   .Validate(options => options.Options.All(option => option.RequestsLimit <= 0 || option.WindowSizeInMinutes > 0));
+		serviceCollection.AddSingleton<IConfigProvider<RouteLimiterOptions>, OptionsMonitorConfigProvider<RouteLimiterOptions>>();
 		
 		serviceCollection.TryAddSingleton<ITimeProvider, StopwatchTicksProvider>();
 		serviceCollection.TryAddEnumerable(ServiceDescriptor.Singleton<IHttpContextLimiterService, RouteHttpContextLimiterService>());
@@ -44,6 +46,7 @@ public static class LimiterRegistrationExtensions
 		serviceCollection.AddOptions<IpLimiterOptions>()
 		   .Bind(configuration.GetSection(nameof(IpLimiterOptions)))
 		   .Validate(options => options.Options.All(option => IPAddress.TryParse(option.IpAddressStr, out _) && (option.RequestsLimit <= 0 || option.WindowSizeInMinutes > 0)));
+		serviceCollection.AddSingleton<IConfigProvider<IpLimiterOptions>, OptionsMonitorConfigProvider<IpLimiterOptions>>();
 		
 		serviceCollection.TryAddSingleton<ITimeProvider, StopwatchTicksProvider>();
 		serviceCollection.TryAddEnumerable(ServiceDescriptor.Singleton<IHttpContextLimiterService, IpHttpContextLimiterService>());

@@ -1,4 +1,4 @@
-﻿namespace RateLimiterLibrary;
+﻿namespace RateLimiterLibrary.Contracts;
 
 public enum CheckResult
 {

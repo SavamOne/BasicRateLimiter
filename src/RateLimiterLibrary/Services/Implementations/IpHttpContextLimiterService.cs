@@ -9,7 +9,7 @@ namespace RateLimiterLibrary.Services.Implementations;
 
 public class IpHttpContextLimiterService : BaseHttpContextLimiterService<IpLimiterOptions, IPAddress>
 {
-	public IpHttpContextLimiterService(ITimeProvider timeProvider, IOptionsMonitor<IpLimiterOptions> userLimiterOptions)
+	public IpHttpContextLimiterService(ITimeProvider timeProvider, IConfigProvider<IpLimiterOptions> userLimiterOptions)
 	: base(timeProvider, userLimiterOptions)
 	{
 	}

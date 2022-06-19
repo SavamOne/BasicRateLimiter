@@ -1,23 +1,21 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
 using RateLimiterLibrary.Checkers;
 using RateLimiterLibrary.Contracts;
 using RateLimiterLibrary.Providers;
 
 namespace RateLimiterLibrary.Services.Implementations;
 
-public abstract class BaseHttpContextLimiterService<TOptions, TKey> : IHttpContextLimiterService
+public abstract class BaseHttpContextLimiterService<TOptions, TKey> : IHttpContextLimiterService, IDisposable
 	where TKey : notnull
 {
 	private readonly KeyLimiterChecker<TKey> limiterChecker;
-	private readonly IDisposable changeTracker;
 	private bool disposed;
 
-	protected BaseHttpContextLimiterService(ITimeProvider timeProvider, IOptionsMonitor<TOptions> options)
+	protected BaseHttpContextLimiterService(ITimeProvider timeProvider, IConfigProvider<TOptions> options)
 	{
-		limiterChecker = new KeyLimiterChecker<TKey>(timeProvider, Convert(options.CurrentValue));
+		limiterChecker = new KeyLimiterChecker<TKey>(timeProvider, Convert(options.GetCurrentConfig()));
 
-		changeTracker = options.OnChange(OptionsChanged);
+		options.OnNewConfig += OptionsChanged;
 	}
 
 	public CheckResult CanExecuteRequest(HttpContext httpContext)
@@ -41,7 +39,6 @@ public abstract class BaseHttpContextLimiterService<TOptions, TKey> : IHttpConte
 
 	public void Dispose()
 	{
-		changeTracker.Dispose();
 		limiterChecker.Dispose();
 		disposed = true;
 	}
