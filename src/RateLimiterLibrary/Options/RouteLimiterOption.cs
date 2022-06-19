@@ -1,5 +1,6 @@
 ﻿namespace RateLimiterLibrary.Options;
 
+// TODO а почему бы не отнаследовать от defaultLimiterOptions
 public class RouteLimiterOption
 {
 	public TimeSpan WindowSize => TimeSpan.FromMinutes(WindowSizeInMinutes);

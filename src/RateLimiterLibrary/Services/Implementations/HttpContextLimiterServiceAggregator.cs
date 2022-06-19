@@ -14,6 +14,9 @@ public class HttpContextLimiterServiceAggregator : IHttpContextLimiterServiceAgg
 	
 	public bool CanExecuteRequest(HttpContext httpContext)
 	{
+		// TODO Тааааак, а вот если мы все три регистрируем... то в каком порядке они будут проверяться? а если одна проверка будет валидной, а вторая нет?
+		// чисто в теории могут быть не верные результаты
+		// Или как это ты себе представлял?
 		foreach (IHttpContextLimiterService limiterService in limiterServices)
 		{
 			CheckResult result = limiterService.CanExecuteRequest(httpContext);

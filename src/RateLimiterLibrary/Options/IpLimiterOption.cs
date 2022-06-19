@@ -2,6 +2,7 @@
 
 namespace RateLimiterLibrary.Options;
 
+// TODO а почему бы не отнаследовать от defaultLimiterOptions
 public class IpLimiterOption
 {
 	public TimeSpan WindowSize => TimeSpan.FromMinutes(WindowSizeInMinutes);

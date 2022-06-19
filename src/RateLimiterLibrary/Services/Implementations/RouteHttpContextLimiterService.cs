@@ -7,6 +7,7 @@ namespace RateLimiterLibrary.Services.Implementations;
 
 public class RouteHttpContextLimiterService : BaseHttpContextLimiterService<RouteLimiterOptions, PathString>
 {
+	// TODO такую же штуку можно было делать на атрибутах
 	public RouteHttpContextLimiterService(ITimeProvider timeProvider, IConfigProvider<RouteLimiterOptions> routeLimiterOptions)
 	: base(timeProvider, routeLimiterOptions)
 	{
