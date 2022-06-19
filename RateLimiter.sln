@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoServerApp", "src\DemoSe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RateLimiterLibrary", "src\RateLimiterLibrary\RateLimiterLibrary.csproj", "{0EC68728-4AD8-43B5-98CB-F93943382E83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RateLimiterLibraryTests", "RateLimiterLibraryTests\RateLimiterLibraryTests.csproj", "{5A1A2F41-6CA6-4991-B68A-9C09EF8FAF4B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RateLimiterLibraryTests", "src\RateLimiterLibraryTests\RateLimiterLibraryTests.csproj", "{5A1A2F41-6CA6-4991-B68A-9C09EF8FAF4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
