@@ -23,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\src\RateLimiterLibrary\RateLimiterLibrary.csproj" />
+      <ProjectReference Include="..\RateLimiterLibrary\RateLimiterLibrary.csproj" />
     </ItemGroup>
 
 </Project>
