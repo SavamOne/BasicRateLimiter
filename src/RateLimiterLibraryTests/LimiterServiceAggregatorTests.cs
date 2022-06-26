@@ -99,7 +99,7 @@ public class LimiterServiceAggregatorTests
 	{
 		return new RouteLimiterOptions
 		{
-			Options = new List<RouteLimiterOption>
+			Options = new RouteLimiterOption[]
 			{
 				new ()
 				{
@@ -115,7 +115,7 @@ public class LimiterServiceAggregatorTests
 	{
 		return new IpLimiterOptions
 		{
-			Options = new List<IpLimiterOption>
+			Options = new IpLimiterOption[]
 			{
 				new()
 				{

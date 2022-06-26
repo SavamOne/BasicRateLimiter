@@ -2,8 +2,8 @@
 
 namespace RateLimiterLibrary.Options;
 
-public class IpLimiterOptions
+public record IpLimiterOptions : IKeyLimiterOptions<IpLimiterOption>
 {
 	[Required]
-	public List<IpLimiterOption> Options { get; set; }
+	public IpLimiterOption[] Options { get; set; }
 }

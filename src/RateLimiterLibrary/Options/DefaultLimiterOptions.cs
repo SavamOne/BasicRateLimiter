@@ -1,6 +1,6 @@
 ﻿namespace RateLimiterLibrary.Options;
 
-public class DefaultLimiterOptions
+public record DefaultLimiterOptions
 {
 	public TimeSpan WindowSize => TimeSpan.FromMinutes(WindowSizeInMinutes);
 	

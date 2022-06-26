@@ -1,0 +1,20 @@
+create table default_option
+(
+    window_size_in_minutes integer,
+    requests_limit         integer
+);
+
+create table ip_limiter_option
+(
+    ip_address_str         string,
+    window_size_in_minutes integer,
+    requests_limit         integer
+);
+
+create table route_limiter_option
+(
+    path                   string,
+    window_size_in_minutes integer,
+    requests_limit         integer
+);
+

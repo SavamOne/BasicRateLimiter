@@ -10,4 +10,15 @@
     <ProjectReference Include="..\RateLimiterLibrary\RateLimiterLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\..\db\config.db">
+      <Link>config.db</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.116" />
+  </ItemGroup>
+
 </Project>
